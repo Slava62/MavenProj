@@ -7,6 +7,7 @@ public class Team {
    private  String [] arr;
    private ArrayList<Sportsman> team;
    private String teamname;
+
    private IOutputProvider outputProvider;
     Team(String teamname){
         this.team=new ArrayList<Sportsman>();
