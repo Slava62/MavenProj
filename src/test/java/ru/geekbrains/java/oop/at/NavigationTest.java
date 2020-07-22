@@ -1,12 +1,23 @@
 package ru.geekbrains.java.oop.at;
 
+import org.junit.jupiter.params.provider.CsvSource;
+import ru.geekbrains.java.oop.at.base.BaseTest;
+import org.hamcrest.MatcherAssert;
+import static org.hamcrest.Matchers.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.geekbrains.java.oop.at.base.BaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class NavigationTest extends BaseTest {
 
-//    Перейти на сайт https://geekbrains.ru/courses
+/*   Перейти на сайт https://geekbrains.ru/courses
 //    Нажать на кнопку Курсы
 //    Проверить что страница Курсы открылась
 //    Повторить для
@@ -15,7 +26,7 @@ public class NavigationTest extends BaseTest {
 //    Форум *
 //            Блог *
 //    Тесты *
-//            Карьера *
+           Карьера * */
 
     @Test
     public void courses() {
@@ -26,14 +37,13 @@ public class NavigationTest extends BaseTest {
         // закрываем попап
         clickCSS("button [class=\"svg-icon icon-popup-close-button \"]");
         // Проверяем отображение "Курсы"
-        Assertions.assertEquals(
+       MatcherAssert.assertThat(
                 "Курсы",
-                getText("[id=\"top-menu\"] h2")
-        );
-        // проверяем header
-        Assertions.assertTrue(hasHeader("[class=\"gb-header js-main-top-menu\"]"));
-        // проверяем footer
-        Assertions.assertTrue(hasFooter("[class=\"site-footer\"]"));
+               equalTo(getText("[id=\"top-menu\"] h2")));
+        // проверяем header (проверка с not)
+        MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
+        // проверяем footer (проверка с is)
+        MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
     }
 
     @Test
@@ -43,14 +53,14 @@ public class NavigationTest extends BaseTest {
         // выбираем "Форум"
         clickCSS("[class=\"nav\"] a[href=\"/topics\"]");
         // проверяем отображение "Форум"
-        Assertions.assertEquals(
+        MatcherAssert.assertThat(
                 "Форум",
-               getText("[id=\"top-menu\"] h2")
+              equalTo( getText("[id=\"top-menu\"] h2"))
         );
-        // проверяем header
-        Assertions.assertTrue(hasHeader("[class=\"gb-header js-main-top-menu\"]"));
-        // проверяем footer
-        Assertions.assertTrue(hasFooter("[class=\"site-footer\"]"));
+        // проверяем header (проверка с not)
+        MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
+        // проверяем footer (проверка с is)
+        MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
     }
 
     @Test
@@ -64,14 +74,14 @@ public class NavigationTest extends BaseTest {
         // закрываем второй попап
         clickCSS("[class=\"gb-empopup-close\"]");
         // проверяем отображение "Блог"
-        Assertions.assertEquals(
+        MatcherAssert.assertThat(
                 "Блог",
-               getText("[id=\"top-menu\"] h2")
+            equalTo(   getText("[id=\"top-menu\"] h2"))
         );
-        // проверяем header
-        Assertions.assertTrue(hasHeader("[class=\"gb-header js-main-top-menu\"]"));
-        // проверяем footer
-        Assertions.assertTrue(hasFooter("[class=\"site-footer\"]"));
+        // проверяем header (проверка с not)
+        MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
+        // проверяем footer (проверка с is)
+        MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
     }
 
     @Test
@@ -85,10 +95,10 @@ public class NavigationTest extends BaseTest {
                 "Вебинары",
                 getText("[id=\"top-menu\"] h2")
         );
-        // проверяем header
-        Assertions.assertTrue(hasHeader("[class=\"gb-header js-main-top-menu\"]"));
-        // проверяем footer
-        Assertions.assertTrue(hasFooter("[class=\"site-footer\"]"));
+        // проверяем header (проверка с not)
+        MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
+        // проверяем footer (проверка с is)
+        MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
     }
 
     @Test
@@ -98,14 +108,14 @@ public class NavigationTest extends BaseTest {
         // выбираем "Тесты"
         clickCSS("[class=\"nav\"] a[href=\"/tests\"]");
         // проверяем отображение "Тесты"
-        Assertions.assertEquals(
+        MatcherAssert.assertThat(
                 "Тесты",
-                getText("[id=\"top-menu\"] h2")
+               equalTo( getText("[id=\"top-menu\"] h2"))
         );
-        // проверяем header
-        Assertions.assertTrue(hasHeader("[class=\"gb-header js-main-top-menu\"]"));
-        // проверяем footer
-        Assertions.assertTrue(hasFooter("[class=\"site-footer\"]"));
+        // проверяем header (проверка с not)
+        MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
+        // проверяем footer (проверка с is)
+        MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
     }
 
     @Test
@@ -115,14 +125,60 @@ public class NavigationTest extends BaseTest {
         // выбираем "Карьера"
         clickCSS("[class=\"nav\"] a[href=\"/career\"]");
         // проверяем отображение "Карьера"
-        Assertions.assertEquals(
+        MatcherAssert.assertThat(
                 "Карьера",
-              getText("[id=\"top-menu\"] h2")
+           equalTo(getText("[id=\"top-menu\"] h2"))
         );
-        // проверяем header
-        Assertions.assertTrue(hasHeader("[class=\"gb-header js-main-top-menu\"]"));
-        // проверяем footer
-        Assertions.assertTrue(hasFooter("[class=\"site-footer\"]"));
+        // проверяем header (проверка с not)
+        MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
+        // проверяем footer (проверка с is)
+        MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
     }
+
+  @CsvSource({
+            "Курсы,[class=\"nav\"] a[href=\"/courses\"]",
+            "Карьера,[class=\"nav\"] a[href=\"/career\"]",
+            "Тесты,[class=\"nav\"] a[href=\"/tests\"]",
+            "Вебинары,[class=\"nav\"] a[href=\"/events\"]",
+            "Форум,[class=\"nav\"] a[href=\"/topics\"]",
+            "Блог,[class=\"nav\"] a[href=\"/posts\"]"
+    })
+
+    @ParameterizedTest
+    //@MethodSource("listCategoryNameSelector")
+    void methodMulti(String CategoryName, String CategorySelector) {
+        // кликаем сэндвич-баттон
+        clickCSS("[class=\"top-menu-mobile-toggle pull-right js-top-menu-mobile-toggle\"]");
+        // выбираем CategoryName
+        clickCSS(CategorySelector);
+        if (CategoryName.equals("Курсы") | CategoryName.equals("Блог"))
+            // закрываем попап
+            clickCSS("button [class=\"svg-icon icon-popup-close-button \"]");
+        if (CategoryName.equals("Блог"))
+            // закрываем попап
+            clickCSS("[class=\"gb-empopup-close\"]");
+        // проверяем отображение CategoryName
+        MatcherAssert.assertThat(
+                CategoryName,
+                equalTo(getText("[id=\"top-menu\"] h2"))
+        );
+        // проверяем header (проверка с not)
+        MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
+        // проверяем footer (проверка с is)
+        MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
+    }
+    // Аргументы для параметризованного теста
+    public static Stream<Arguments> listCategoryNameSelector() {
+       return Stream.of(
+                // аргументы: название, пункт выпадающего меню, селектор на странице
+                // для сравнения с названием
+                Arguments.of("Курсы", "[class=\"nav\"] a[href=\"/courses\"]"),
+                Arguments.of("Карьера", "[class=\"nav\"] a[href=\"/career\"]"),
+                Arguments.of("Тесты", "[class=\"nav\"] a[href=\"/tests\"]"),
+                Arguments.of("Вебинары", "[class=\"nav\"] a[href=\"/events\"]"),
+                Arguments.of("Форум", "[class=\"nav\"] a[href=\"/topics\"]"),
+                Arguments.of("Блог", "[class=\"nav\"] a[href=\"/posts\"]"));
+    }
+
 
 }

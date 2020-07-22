@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.geekbrains.java.oop.at.base.BaseTest;
+import org.hamcrest.MatcherAssert;
+import static org.hamcrest.Matchers.*;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -46,7 +48,7 @@ public class SearchTest extends BaseTest {
         try {
             result = Integer.parseInt(getText
                     ("ul[class=\"search-page-block__helper\"] a[data-tab='professions'] span"));
-            Assertions.assertTrue(result>=2);
+            MatcherAssert.assertThat(result, greaterThanOrEqualTo(2));
         }  catch (NumberFormatException e){
             Assertions.fail("Error in professions block");
         }
@@ -56,7 +58,7 @@ public class SearchTest extends BaseTest {
         try {
             result = Integer.parseInt(getText
                     ("ul[class=\"search-page-block__helper\"] a[data-tab='courses'] span"));
-            Assertions.assertTrue(result>15);
+            MatcherAssert.assertThat(result, greaterThan(15));
         }  catch (NumberFormatException e){
             Assertions.fail("Error in courses block");
         }
@@ -66,21 +68,22 @@ public class SearchTest extends BaseTest {
         try {
             result = Integer.parseInt(getText
                     ("ul[class=\"search-page-block__helper\"] a[data-tab='webinars'] span"));
-            Assertions.assertTrue(result>180 && result<300);
+            MatcherAssert.assertThat(result, greaterThan(180));
+            MatcherAssert.assertThat(result, lessThan(300));
         }  catch (NumberFormatException e){
             Assertions.fail("Error in webinars block");
         }
         // В вебинарах отображается первым “Java Junior. Что нужно знать для успешного собеседования?”
-        Assertions.assertTrue(
+        MatcherAssert.assertThat("Java Junior. Что нужно знать для успешного собеседования?", equalTo(
                 chromeDriver.findElements(By.cssSelector("a[class=\"event__title h3 search_text\"]"))
-                        .get(0).getText().equals("Java Junior. Что нужно знать для успешного собеседования?"));
+                        .get(0).getText()));
         // Блогов более 300
         wait.until(ExpectedConditions.textToBePresentInElement(
         chromeDriver.findElementByXPath("//div/header/h2[text()='Блоги']"),"Блоги"));
         try {
             result = Integer.parseInt(getText
                     ("ul[class=\"search-page-block__helper\"] a[data-tab='blogs'] span"));
-            Assertions.assertTrue(result > 300);
+            MatcherAssert.assertThat(result, greaterThan(300));
         }  catch (NumberFormatException e){
             Assertions.fail("Error in blogs block");
         }
@@ -90,7 +93,7 @@ public class SearchTest extends BaseTest {
         try {
             result = Integer.parseInt(getText
                     ("ul[class=\"search-page-block__helper\"] a[data-tab='forums'] span"));
-            Assertions.assertTrue(result != 350);
+            MatcherAssert.assertThat(result, not(350));
         }  catch (NumberFormatException e){
             Assertions.fail("Error in forums block");
         }
@@ -100,14 +103,14 @@ public class SearchTest extends BaseTest {
         try {
             result = Integer.parseInt(getText
                     ("ul[class=\"search-page-block__helper\"] a[data-tab='tests'] span"));
-            Assertions.assertTrue(result != 0);
+            MatcherAssert.assertThat(result, not(0));
         }  catch (NumberFormatException e){
             Assertions.fail("Error in tests block");
         }
         // В Проектах и компаниях отображается GeekBrains
         wait.until(ExpectedConditions.textToBePresentInElement(
         chromeDriver.findElementByXPath("//div/header/h2[text()='Проекты и компании']"),"Проекты и компании"));
-        Assertions.assertTrue(
-                getText("h3 a[href=\"/career/682\"]").contains("GeekBrains"));
+        MatcherAssert.assertThat(
+                getText("h3 a[href=\"/career/682\"]"), containsString("GeekBrains"));
     }
 }
