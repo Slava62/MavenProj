@@ -9,10 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.stream.Stream;
 
 public class NavigationTest extends BaseTest {
@@ -135,7 +133,7 @@ public class NavigationTest extends BaseTest {
         MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
     }
 
-  @CsvSource({
+ /* @CsvSource({
             "Курсы,[class=\"nav\"] a[href=\"/courses\"]",
             "Карьера,[class=\"nav\"] a[href=\"/career\"]",
             "Тесты,[class=\"nav\"] a[href=\"/tests\"]",
@@ -143,9 +141,9 @@ public class NavigationTest extends BaseTest {
             "Форум,[class=\"nav\"] a[href=\"/topics\"]",
             "Блог,[class=\"nav\"] a[href=\"/posts\"]"
     })
-
+*/
     @ParameterizedTest
-    //@MethodSource("listCategoryNameSelector")
+    @MethodSource("listCategoryNameSelector")
     void methodMulti(String CategoryName, String CategorySelector) {
         // кликаем сэндвич-баттон
         clickCSS("[class=\"top-menu-mobile-toggle pull-right js-top-menu-mobile-toggle\"]");
@@ -163,21 +161,21 @@ public class NavigationTest extends BaseTest {
                 equalTo(getText("[id=\"top-menu\"] h2"))
         );
         // проверяем header (проверка с not)
-        MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
+    MatcherAssert.assertThat(false, not(hasHeader("[class=\"gb-header js-main-top-menu\"]")));
         // проверяем footer (проверка с is)
-        MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
+       MatcherAssert.assertThat(true, is(hasFooter("[class=\"site-footer\"]")));
     }
     // Аргументы для параметризованного теста
-    public static Stream<Arguments> listCategoryNameSelector() {
+    static Stream<Arguments> listCategoryNameSelector() {
        return Stream.of(
                 // аргументы: название, пункт выпадающего меню, селектор на странице
                 // для сравнения с названием
-                Arguments.of("Курсы", "[class=\"nav\"] a[href=\"/courses\"]"),
-                Arguments.of("Карьера", "[class=\"nav\"] a[href=\"/career\"]"),
-                Arguments.of("Тесты", "[class=\"nav\"] a[href=\"/tests\"]"),
-                Arguments.of("Вебинары", "[class=\"nav\"] a[href=\"/events\"]"),
-                Arguments.of("Форум", "[class=\"nav\"] a[href=\"/topics\"]"),
-                Arguments.of("Блог", "[class=\"nav\"] a[href=\"/posts\"]"));
+                Arguments.of("Курсы","[class=\"nav\"] a[href=\"/courses\"]"),
+                Arguments.of("Карьера","[class=\"nav\"] a[href=\"/career\"]"),
+                Arguments.of("Тесты","[class=\"nav\"] a[href=\"/tests\"]"),
+                Arguments.of("Вебинары","[class=\"nav\"] a[href=\"/events\"]"),
+                Arguments.of("Форум","[class=\"nav\"] a[href=\"/topics\"]"),
+                Arguments.of("Блог","[class=\"nav\"] a[href=\"/posts\"]"));
     }
 
 

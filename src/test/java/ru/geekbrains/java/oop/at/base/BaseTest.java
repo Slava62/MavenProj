@@ -24,10 +24,12 @@ public abstract class BaseTest {
         // отключить попапы
         options.addArguments("--disable-popup-blocking");
         options.setExperimentalOption("excludeSwitches", Arrays.asList("disable-popup-blocking"));
+        options.addArguments("--window-size=1024,768");
         chromeDriver = new ChromeDriver(options);
         chromeDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         chromeDriver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
         chromeDriver.manage().timeouts().setScriptTimeout(30, TimeUnit.SECONDS);
+        
         // на мониторе 15' сначала грузимся на курсы
         chromeDriver.get("https://geekbrains.ru/topics");
 
