@@ -14,13 +14,18 @@
         <junit-jupiter.version>5.6.0</junit-jupiter.version>
         <hamcrest.version>2.2</hamcrest.version>
         <webdrivermanager.version>4.1.0</webdrivermanager.version>
+        <allure.version>2.13.5</allure.version>
+        <allure-maven-plagin.version>2.10.0</allure-maven-plagin.version>
+        <maven-surefire.version>3.0.0-M4</maven-surefire.version>
+        <maven-compiler.version>3.0</maven-compiler.version>
+        <aspectj.version>1.9.6</aspectj.version>
     </properties>
 	<build>
           <plugins>
               <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-compiler-plugin</artifactId>
-                  <version>3.0</version>
+                  <version>${maven-compiler.version}</version>
                   <configuration>
                       <source>8</source>
                       <target>8</target>
@@ -29,11 +34,35 @@
               <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-surefire-plugin</artifactId>
-                  <version>3.0.0-M4</version>
+                  <version>${maven-surefire.version}</version>
+                  <configuration>
+                      <!--true - Статус билда не зависит от прохождения тестов-->
+                      <testFailureIgnore>true</testFailureIgnore>
+                      <includes>
+                          <include>**/*WebTest*.java</include>
+                      </includes>
+                      <argLine>
+                          -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                      </argLine>
+                  </configuration>
+              </plugin>
+              <plugin>
+                  <groupId>io.qameta.allure</groupId>
+                  <artifactId>allure-maven</artifactId>
+                  <version>${allure-maven-plagin.version}</version>
+                  <configuration>
+                      <reportVersion>2.13.0</reportVersion>
+                      <resultsDirectory>allure-results</resultsDirectory>
+                  </configuration>
               </plugin>
           </plugins>
       </build>
     <dependencies>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -53,6 +82,11 @@
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>${allure.version}</version>
         </dependency>
     </dependencies>
 
